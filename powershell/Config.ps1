@@ -6,10 +6,10 @@ configuration Config
     {
         SqlServer SqlServer
         {
-            ISOFile = $Node.SqlServerISOFile
-            TempFolder = "c:\temp"
-            InstallConfig = $Node.SqlServerInstallConfig
-            SQLPassword = $Node.SqlServerSAPassword
+            ISOFile = $Node.SqlServer.ISOFile
+            TempFolder = $Node.TempFolder
+            InstallConfig = $Node.SqlServer.InstallConfig
+            SQLPassword = $Node.SqlServer.SAPassword
         } 
     }
 
@@ -19,22 +19,20 @@ configuration Config
         {
             
         } 
-        
+    }
+    
+    Node $AllNodes.Where({ $_.Role -contains 'Sitecore' }).NodeName
+    {
         Sitecore Sitecore
         {
-            DatabaseServer = ".\SQLEXPRESS"
-            DatabaseUser = "sa"
-            DatabasePassword = "Vagrant123"
-            Name = "demo"
-            IISSiteHeader = ""
-            IISPort = 3223
-            IISSiteName = "Default Web Site"
-            Path = "c:\sitecore\website"
-            DatabaseLocation = "c:\sitecore\database"
-            DataLocation = "c:\sitecore\data"
-            ShareName = "sitecore"
-            UserName = $Node.UserName
-            Password = $Node.Password
+            TempFolder = $Node.TempFolder
+            InstallerFile = $Node.Sitecore.Installer
+            LicenseFile = $Node.Sitecore.License
+            Name = $Node.Sitecore.Name
+            WWWRoot = $Node.WWWRoot 
+            SQLServer = "."
+            SQLUser = "sa"
+            SQLPassword = $Node.SqlServerSAPassword
         }
     }
 }
