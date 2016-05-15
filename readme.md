@@ -1,7 +1,5 @@
 # Sitecore Vagrant Box  
-I really believe that it should be as easy as possible to start work on a project or to switch projects. New team members shouldn't have to follow lists of installation instructions on how to set up a new project specific development environment.
-
-Vagrant provides a really nice mechanism that lets you configure a development environment in your repo. New team members get the repository and run vagrant up, which will create a box with all the project dependencies.
+An initial repository that lets you create a Vagrant box which is provisoned with Sitecore. This will allow projects to add the configuration of their Sitecore environment to their repository. This enables new team members to just run "vagrant up" to configure their Sitecore development environment. 
 
 I like Desired Stated Configuration for provisioning and used [this excellent blog post](https://jermdavis.wordpress.com/2015/10/12/development-environments-with-powershell-dsc-part-1/) by Jeremy Davis to write the DSC scripts, so big shout out to him!
 
