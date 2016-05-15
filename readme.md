@@ -47,4 +47,6 @@ Next you need to configure the base box in the VagrantFile. Change the following
 
 ### Vagrant up
 
-Now run vagrant up, this will create the virtual box and start provisioning it. The box is configured with port forwarding, so when everything succeeds the new sitecore site should be available in your host at: http://localhost:5555
+Now run vagrant up, this will create the virtual box and start provisioning it. The box is configured with port forwarding, so when everything succeeds the new sitecore site should be available in your host at: http://localhost:5555.
+
+Also a share is created to access the Sitecore folder from your host. This can be accessed through: \\192.168.50.10\Sitecore. You can publish your project to this location from Visual Studio.
