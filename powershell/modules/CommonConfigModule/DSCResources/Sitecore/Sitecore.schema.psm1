@@ -11,6 +11,7 @@ configuration Sitecore
     [string]$Name
   )
     Import-DscResource -Module cWebAdministration
+    Import-DscResource -Module cHardDisk
     
     File SitecoreInstaller
     {
@@ -120,7 +121,16 @@ configuration Sitecore
     
             $wwwRoot = $using:WWWRoot
     
-            msiexec.exe /qn /i "$tmp\SupportFiles\exe\Sitecore.msi" "TRANSFORMS=:$instanceID;:ComponentGUIDTransform5.mst" "MSINEWINSTANCE=1" "LOGVERBOSE=1" "SC_LANG=en-US" "SC_FULL=1" "SC_INSTANCENAME=$site" "SC_LICENSE_PATH=$license" "SC_SQL_SERVER_USER=$sqlUser" "SC_SQL_SERVER=$sqlServer" "SC_SQL_SERVER_PASSWORD=$sqlPassword" "SC_DBPREFIX=$sitePrefix" "SC_PREFIX_PHYSICAL_FILES=1" "SC_SQL_SERVER_CONFIG_USER=$sqlUser" "SC_SQL_SERVER_CONFIG_PASSWORD=$sqlPassword" "SC_DBTYPE=MSSQL" "INSTALLLOCATION=$wwwRoot\$site" "SC_DATA_FOLDER=$wwwRoot\$site\Data" "SC_DB_FOLDER=$wwwRoot\$site\Databases" "SC_MDF_FOLDER=$wwwRoot\$site\Databases\MDF" "SC_LDF_FOLDER=$wwwRoot\$site\Databases\LDF" "SC_NET_VERSION=4" "SITECORE_MVC=0" "SC_INTEGRATED_PIPELINE_MODE=1" "SC_IISSITE_NAME=$site" "SC_IISAPPPOOL_NAME=$siteAppPool" "SC_IISSITE_HEADER=$site" "SC_IISSITE_PORT=80" "SC_IISSITE_ID=" "/l*+v" "$tmp\Install.log" | out-null
+            msiexec.exe /qn /i "$tmp\SupportFiles\exe\Sitecore.msi" "TRANSFORMS=:$instanceID;:ComponentGUIDTransform5.mst" "MSINEWINSTANCE=1" "LOGVERBOSE=1" "SC_LANG=en-US" "SC_FULL=1" "SC_INSTANCENAME=$site" "SC_LICENSE_PATH=$license" "SC_SQL_SERVER_USER=$sqlUser" "SC_SQL_SERVER=$sqlServer" "SC_SQL_SERVER_PASSWORD=$sqlPassword" "SC_DBPREFIX=$sitePrefix" "SC_PREFIX_PHYSICAL_FILES=1" "SC_SQL_SERVER_CONFIG_USER=$sqlUser" "SC_SQL_SERVER_CONFIG_PASSWORD=$sqlPassword" "SC_DBTYPE=MSSQL" "INSTALLLOCATION=$wwwRoot\$site" "SC_DATA_FOLDER=$wwwRoot\$site\Data" "SC_DB_FOLDER=$wwwRoot\$site\Databases" "SC_MDF_FOLDER=$wwwRoot\$site\Databases\MDF" "SC_LDF_FOLDER=$wwwRoot\$site\Databases\LDF" "SC_NET_VERSION=4" "SITECORE_MVC=0" "SC_INTEGRATED_PIPELINE_MODE=1" "SC_IISSITE_NAME=$site" "SC_IISAPPPOOL_NAME=$siteAppPool" "SC_IISSITE_PORT=80" "SC_IISSITE_ID=" "/l*+v" "$tmp\Install.log" | out-null
         }
+    }
+        
+    cSharedDirectory CreateSitecoreShare
+    {
+        Path      = "$WWWRoot\$Name\website"
+        Description = "Sitecore"
+        Permissions = ["Read", "Write"]
+        Ensure    = 'Present'
+        DependsOn = '[Script]SC8'
     }
 }

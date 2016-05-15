@@ -6,6 +6,18 @@ configuration SqlServer
     [string]$InstallConfig,
     [string]$SQLPassword
   )    
+  
+    WindowsFeature NetFramework35Core
+    {
+        Name = "NET-Framework-Core"
+        Ensure = "Present"
+    }
+
+    WindowsFeature NetFramework45Core
+    {
+        Name = "NET-Framework-45-Core"
+        Ensure = "Present"
+    }
     
     File SQLServerIso
     {

@@ -20,6 +20,19 @@ configuration Config
             
         } 
     }
+           
+    Node $AllNodes.Where({ $_.Role -contains 'MongoDB' }).NodeName
+    {
+        MongoDB MongoDB
+        {
+            TempFolder = $Node.TempFolder
+            DataFolder = $Node.Mongo.DataFolder
+            ConfigFile = $Node.Mongo.ConfigFile
+            MSIFile = $Node.Mongo.MSIFile
+            InstallerAppName = $Node.Mongo.InstallerAppName
+            ServiceExe = $Node.Mongo.ServiceExe
+        }
+    }
     
     Node $AllNodes.Where({ $_.Role -contains 'Sitecore' }).NodeName
     {
@@ -32,7 +45,7 @@ configuration Config
             WWWRoot = $Node.WWWRoot 
             SQLServer = "."
             SQLUser = "sa"
-            SQLPassword = $Node.SqlServerSAPassword
+            SQLPassword = $Node.SqlServer.SAPassword
         }
     }
 }

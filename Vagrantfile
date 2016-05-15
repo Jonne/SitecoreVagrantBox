@@ -10,7 +10,7 @@ unless Vagrant.has_plugin?("vagrant-dsc")
 end
 
 Vagrant.configure(2) do |config|
-  config.vm.box = "C:/boxes/w2k12r2_base.box"
+  config.vm.box = "C:/boxes/Windows-2012-R2-base.box"
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
 
