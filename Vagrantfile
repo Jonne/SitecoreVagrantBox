@@ -1,10 +1,3 @@
-
-$shell_script = <<SCRIPT
-  iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
-  choco install seek-dsc -y
-  Get-DSCResource
-SCRIPT
-
 unless Vagrant.has_plugin?("vagrant-dsc")
   raise 'vagrant-dsc plugin is not installed! Please install with: vagrant plugin install vagrant-dsc'
 end
@@ -36,9 +29,6 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "./", "/vagrant_data"
-    
-  # Install Chocolatey and some basic DSC Resources
-  config.vm.provision "shell", inline: $shell_script
   
   config.vm.provision :dsc do |dsc|
     dsc.configuration_data_file  = "powershell/manifests/Vagrant.psd1"

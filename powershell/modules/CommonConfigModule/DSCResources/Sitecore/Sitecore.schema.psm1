@@ -11,8 +11,6 @@ configuration Sitecore
     [string]$Name,
     [string]$DeploymentHelpersFolder
   )
-    Import-DscResource -Module cWebAdministration
-        
     File SitecoreInstaller
     {
         SourcePath = "$InstallerFile"
@@ -52,15 +50,29 @@ configuration Sitecore
         }
     }
          
-    # Stop the default website
-    cWebsite DefaultSite
-    {
-        Ensure          = "Absent"
-        Name            = "Default Web Site"
-        State           = "Stopped"
-        PhysicalPath    = "C:\inetpub\wwwroot"
+    Script RemoveDefaultWebsite {
+        SetScript = {
+            # Check if WebAdministration module is present for IIS cmdlets
+            if(!(Get-Module -ListAvailable -Name WebAdministration))
+            {
+                Throw "Please ensure that WebAdministration module is installed."
+            }
+            Remove-Website "Default Web Site"
+        }
+        TestScript = {
+            $w = Get-Website | where {$_.name -eq "Default Web Site"}
+            return $w.count -eq 0
+        }
+        GetScript = {
+            $installStatus = Get-Website | where {$_.name -eq "Default Web Site"}
+            @{
+                SetScript = $SetScript
+                TestScript = $TestScript
+                Result = [String]$installStatus;
+            } 
+        }
     }
-        
+
     Script SC8
     {
         DependsOn = "[Script]ExtractSitecore", "[File]SitecoreLicense"
