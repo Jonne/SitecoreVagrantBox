@@ -8,7 +8,8 @@ configuration Sitecore
     [string]$SQLServer,
     [string]$SQLUser,
     [string]$SQLPassword,
-    [string]$Name
+    [string]$Name,
+    [string]$DeploymentHelpersFolder
   )
     Import-DscResource -Module cWebAdministration
         
@@ -149,5 +150,15 @@ configuration Sitecore
             
             $Shares.Create($folderPath,"Sitecore",0)
         }
+    }
+
+    File AddRemoteDeploy
+    {
+        DependsOn = "[script]SC8"
+        SourcePath = "$DeploymentHelpersFolder"
+        DestinationPath = "$WWWRoot\SC8\website\install"
+        Type = "Directory"
+        Recurse = $True
+        Ensure = "Present"
     }
 }

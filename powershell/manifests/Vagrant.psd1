@@ -14,9 +14,10 @@
             }
             
             Sitecore = @{
-                Installer = "c:\vagrant\files\Sitecore 8.1 rev. 160302.exe"
+                Installer = "c:\vagrant\files\Sitecore 8.2 rev. 160729.exe"
                 License = "c:\vagrant\files\license.xml"
                 Name = "demo"
+                DeploymentHelpersFolder = "c:\vagrant\files\DeploymentHelpers"
             }
             
             Mongo = @{

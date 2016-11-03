@@ -46,6 +46,7 @@ configuration Config
             SQLServer = "."
             SQLUser = "sa"
             SQLPassword = $Node.SqlServer.SAPassword
+            DeploymentHelpersFolder = $Node.Sitecore.DeploymentHelpersFolder
         }
     }
 }
