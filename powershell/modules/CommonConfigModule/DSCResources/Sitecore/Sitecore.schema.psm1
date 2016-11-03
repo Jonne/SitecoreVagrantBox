@@ -8,7 +8,7 @@ configuration Sitecore
     [string]$SQLServer,
     [string]$SQLUser,
     [string]$SQLPassword,
-    [string]$Name,
+    [string]$Instance,
     [string]$DeploymentHelpersFolder
   )
     File SitecoreInstaller
@@ -80,7 +80,7 @@ configuration Sitecore
         }
         TestScript = {
             $wwwRoot = $using:WWWRoot
-            $instance = $using:Name
+            $instance = $using:Instance
             $iisFolder = "$using:wwwRoot\$using:instance"
     
             Test-Path $iisFolder
@@ -123,7 +123,7 @@ configuration Sitecore
             $tmp = $using:TempFolder
             $licenseFile = $using:LicenseFile
             $license = "$tmp\$(split-path $licenseFile -leaf -resolve)"
-            $site = $using:Name
+            $site = $using:Instance
             $siteAppPool = "$($site)_AppPool"
             $sitePrefix = "$($site)_"
                     
@@ -153,7 +153,7 @@ configuration Sitecore
         }
         SetScript = {
             $wwwRoot = $using:WWWRoot
-            $site = $using:Name
+            $site = $using:Instance
             $folderPath = "$wwwRoot\SC8\Website" 
             
             Write-Verbose "Creating share: $folderPath"
@@ -172,5 +172,54 @@ configuration Sitecore
         Type = "Directory"
         Recurse = $True
         Ensure = "Present"
+    }
+
+    Script WarmSitecore
+    {
+        DependsOn = "[script]SC8"
+        GetScript = {
+        }
+        TestScript = {
+            $false
+        }
+        SetScript = {
+            $url = "http://localhost"
+    
+            Write-Verbose "Starting Sitecore..."
+    
+            $result = $null
+    
+            do
+            {
+                Write-Verbose " -- trying to start Sitecore -- "
+                try
+                {
+                    $result = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 0
+                }
+                catch
+                {
+                    Write-Verbose " -- start failed - retying [$($result.StatusCode)] -- " 
+                }
+            }
+            while($result.StatusCode -ne 200)
+            Write-Verbose "Public site started..."
+    
+            $url = $url + "sitecore/"
+    
+            do
+            {
+                Write-Verbose " -- Retry starting Admin -- "
+                try
+                {
+                    $result = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 0
+                }
+                catch
+                {
+                    Write-Verbose " -- start failed - retying [$($result.StatusCode)] -- " 
+                }
+            }
+            while($result.StatusCode -ne 200)
+            Write-Verbose "Admin site started..."
+        }
     }
 }

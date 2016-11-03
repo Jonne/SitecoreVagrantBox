@@ -2,8 +2,15 @@ unless Vagrant.has_plugin?("vagrant-dsc")
   raise 'vagrant-dsc plugin is not installed! Please install with: vagrant plugin install vagrant-dsc'
 end
 
+$shell_script = <<SCRIPT
+  # config desired state
+  . C:\\vagrant\\powershell\\manifests\\LCMConfig.ps1
+  LCMConfig
+  Set-DscLocalConfigurationManager -Path ".\\LCMConfig"
+SCRIPT
+
 Vagrant.configure(2) do |config|
-  config.vm.box = "C:/boxes/Windows-2012-R2-base.box"
+  config.vm.box = "D:/boxes/Windows-2012-R2-base.box"
   config.vm.guest = :windows
   config.vm.communicator = "winrm"
 
@@ -29,13 +36,14 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "./", "/vagrant_data"
-  
+
+  config.vm.provision "shell", inline: $shell_script
+
   config.vm.provision :dsc do |dsc|
     dsc.configuration_data_file  = "powershell/manifests/Vagrant.psd1"
     dsc.configuration_file  = "powershell/Config.ps1"
     dsc.module_path = ["powershell/modules"]
     dsc.temp_dir = "c:/tmp/vagrant-dsc"
-    #dsc.configuration_params = {"-ConfigurationData $configurationData" => nil}
   end
     
 end

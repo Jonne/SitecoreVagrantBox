@@ -41,7 +41,7 @@ configuration Config
             TempFolder = $Node.TempFolder
             InstallerFile = $Node.Sitecore.Installer
             LicenseFile = $Node.Sitecore.License
-            Name = $Node.Sitecore.Name
+            Instance = $Node.Sitecore.Name
             WWWRoot = $Node.WWWRoot 
             SQLServer = "."
             SQLUser = "sa"

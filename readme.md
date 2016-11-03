@@ -23,6 +23,11 @@ Next to this provisioning needs the following files:
 
 And I recommend you to create your own base box, although this is optional. Its also possible to use one from the [Hashi corp repository](https://atlas.hashicorp.com/boxes/search). If you want to create your own, it only needs the bare minimals. I created mine using this excellent blog post: http://huestones.co.uk/node/305.
 
+The base box at least needs the following requirements:
+
+ - [Powershell 5](https://www.microsoft.com/en-us/download/details.aspx?id=50395)
+ - [.NET 4.5.2](https://www.microsoft.com/nl-nl/download/details.aspx?id=42642)
+
 ## Using
 
 ### Configure the files

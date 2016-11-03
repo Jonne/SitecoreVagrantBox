@@ -27,11 +27,11 @@
                 InstallerAppName = "MongoDB 3.2.6 2008R2Plus SSL (64 bit)"
                 ServiceExe = "MongoDB\Server\3.2\bin\mongod.exe" 
             }
-            
+
             Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore")
          }
         @{
-            NodeName="localhost"
+            NodeName="localhost"        
          }
     )
 }
