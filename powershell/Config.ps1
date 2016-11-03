@@ -49,4 +49,14 @@ configuration Config
             DeploymentHelpersFolder = $Node.Sitecore.DeploymentHelpersFolder
         }
     }
+
+    Node $AllNodes.Where({ $_.Role -contains 'SXA' }).NodeName
+    {
+        SXA SXA
+        {
+            Package = $Node.SXA.Package
+            Instance = $Node.Sitecore.Name
+            WWWRoot = $Node.WWWRoot 
+        }
+    }    
 }
