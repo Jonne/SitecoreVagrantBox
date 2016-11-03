@@ -28,7 +28,11 @@
                 ServiceExe = "MongoDB\Server\3.2\bin\mongod.exe" 
             }
 
-            Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore")
+            SXA = @{
+                Package = "c:\vagrant\files\Sitecore Experience Accelerator 1.0.0 for 8.2.zip"
+            }
+
+            Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore", "SXA")
          }
         @{
             NodeName="localhost"        

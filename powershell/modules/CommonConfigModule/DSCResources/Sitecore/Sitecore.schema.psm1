@@ -154,7 +154,7 @@ configuration Sitecore
         SetScript = {
             $wwwRoot = $using:WWWRoot
             $site = $using:Instance
-            $folderPath = "$wwwRoot\SC8\Website" 
+            $folderPath = "$wwwRoot\$site\Website" 
             
             Write-Verbose "Creating share: $folderPath"
             
@@ -168,7 +168,7 @@ configuration Sitecore
     {
         DependsOn = "[script]SC8"
         SourcePath = "$DeploymentHelpersFolder"
-        DestinationPath = "$WWWRoot\SC8\website\install"
+        DestinationPath = "$WWWRoot\$Instance\website\install"
         Type = "Directory"
         Recurse = $True
         Ensure = "Present"
