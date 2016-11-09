@@ -67,6 +67,9 @@ configuration Config
             TempFolder = $Node.TempFolder
             InstallerFile = $Node.CommerceServer.Installer
             CSConfigFile = $Node.CommerceServer.CSConfigFile
+            SiteName = $Node.CommerceServer.SiteName
+            WebServiceSiteName = $Node.CommerceServer.WebServiceSiteName
         }
     }    
 }
+

@@ -35,6 +35,8 @@
             CommerceServer = @{
                 Installer = "c:\vagrant\files\CommerceServer-11.4.148.exe"
                 CSConfigFile = "c:\vagrant\files\CSConfig.xml"
+                SiteName = "demo"
+                WebServiceSiteName = "services"
             }
 
             Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore", "SXA", "CommerceServer")

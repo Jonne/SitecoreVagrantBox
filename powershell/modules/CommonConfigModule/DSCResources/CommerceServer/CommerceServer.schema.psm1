@@ -3,7 +3,9 @@ configuration CommerceServer
     Param (
     [string]$TempFolder,
     [string]$InstallerFile,
-    [string]$CSConfigFile
+    [string]$CSConfigFile,
+    [string]$SiteName,
+    [string]$WebServiceSiteName
   )
     File Installer
     {
@@ -64,4 +66,36 @@ configuration CommerceServer
             } 
         }
     }
+
+    Script Site
+    {
+        DependsOn = "[Script]CommerceServer"
+        GetScript = {
+        }
+        TestScript = {
+            $w = Get-CSSites | Where {$_-eq "$using:SiteName"}
+            return $w.count -eq 1
+        }
+        SetScript = {
+
+            $csSiteName = $using:SiteName
+            $webServiceSiteName = $using:WebServiceSiteName
+
+            # Create Site
+            New-CSSite $csSiteName
+
+            # Create resources
+            Add-CSCatalogResource $csSiteName
+            Add-CSInventoryResource $csSiteName
+            Add-CSMarketingResource $csSiteName
+            Add-CSOrdersResource $csSiteName
+            Add-CSProfilesResource $csSiteName
+
+            # Todo: The following requires webdeploy 3 to be installed 
+            # New-CSWebService -Name $csSiteName -Resource Catalog -IISSite $webServiceSiteName;
+            # New-CSWebService -Name $csSiteName -Resource Orders -IISSite $webServiceSiteName;
+            # New-CSWebService -Name $csSiteName -Resource Profiles -IISSite $webServiceSiteName;
+            # New-CSWebService -Name $csSiteName -Resource Marketing -IISSite $webServiceSiteName;            
+        }
+    }    
 }
