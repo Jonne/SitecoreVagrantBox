@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
   config.winrm.password = "vagrant"
   config.ssh.insert_key = false
 
-  config.vm.network "forwarded_port", guest: 80, host: 5555
+  config.vm.network "forwarded_port", guest: 80, host: 3336
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.

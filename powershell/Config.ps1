@@ -59,4 +59,14 @@ configuration Config
             WWWRoot = $Node.WWWRoot 
         }
     }    
+
+    Node $AllNodes.Where({ $_.Role -contains 'CommerceServer' }).NodeName
+    {
+        CommerceServer CommerceServer
+        {
+            TempFolder = $Node.TempFolder
+            InstallerFile = $Node.CommerceServer.Installer
+            CSConfigFile = $Node.CommerceServer.CSConfigFile
+        }
+    }    
 }

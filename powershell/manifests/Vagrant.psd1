@@ -32,7 +32,12 @@
                 Package = "c:\vagrant\files\Sitecore Experience Accelerator 1.0.0 for 8.2.zip"
             }
 
-            Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore", "SXA")
+            CommerceServer = @{
+                Installer = "c:\vagrant\files\CommerceServer-11.4.148.exe"
+                CSConfigFile = "c:\vagrant\files\CSConfig.xml"
+            }
+
+            Role=@("SqlServer", "WebServer", "MongoDB", "Sitecore", "SXA", "CommerceServer")
          }
         @{
             NodeName="localhost"        
